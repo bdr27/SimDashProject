@@ -1,5 +1,5 @@
-/*#include "SWTFT.h" 
-#include <string>
+#include "SWTFT.h" 
+//#include <string>
 class Drawable
 {
 protected:
@@ -9,6 +9,6 @@ protected:
 	int height;
 
 public:
-	Drawable(int x, int y, int width, int height);
-	virtual void Draw(&SWTFT tft, string value);
-};*/
+	//Drawable(int x, int y, int width, int height);
+	//virtual void Draw(&SWTFT tft, string value);
+};

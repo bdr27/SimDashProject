@@ -1,13 +1,36 @@
-#include "HelloWorld.h"
+#include "DrawText.h"
 
-class RPM : public Drawable{
-  public:
+DrawText::DrawText(int x, int y, int width, int height, String text){
+    this->x = x;
+    this->y = y;
+    this->width = width;
+    this->height = height;
+    this->text = text;
+    oldValue = "";
+  }
+
+  void DrawText::setValue(String value){
+    newValue = value;
+  }
+
+  void DrawText::draw(SWTFT &tft){
+    Serial.println("oldText: " + oldValue + " newText: " + newValue);
+    if(newValue.compareTo(oldValue) != 0){
+      Serial.println("Displaying Text");
+      oldValue = newValue;
+      tft.setCursor(x, y);
+      tft.print(text);
+    }
+    else{
+      Serial.println("Not priniting text");
+    }
+  }
   /*Drawable(int x, int y, int width, int height) {
   this->x = x;
   this->y = y;
   this->width = width;
   this->height = height;*/ 
-};
+
 
 
 /*void Drawable::draw(&SWTFT tft, string value) {
