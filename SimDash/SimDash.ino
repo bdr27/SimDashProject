@@ -1,5 +1,6 @@
 #include  <Adafruit_GFX.h>
-#include "SWTFT.h" 
+#include "SWTFT.h"
+//#include "HelloWorld.h" 
 #define LCD_CS A3 
 #define LCD_CD A2 
 #define LCD_WR A1 
