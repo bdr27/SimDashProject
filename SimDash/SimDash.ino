@@ -7,7 +7,8 @@
 #define LCD_WR A1 
 #define LCD_RD A0 
 SWTFT tft;
-double textMultiplier = 8;
+double textHeightMultiplier = 8;
+double textWidthMultiplier = 6;
 int resetCounter = 0;
 DrawText rpm(200, 200, 0, 0, "RPM");
 
@@ -54,7 +55,8 @@ unsigned long testText() {
     int size = 4;
     tft.setTextSize(size);
     rpm.draw(tft);
-    tft.fillRect(198, 200, 1, size * textMultiplier, 0x0000);
+    tft.fillRect(198, 200, 1, size * textHeightMultiplier, 0x0000);
+    tft.fillRect(200, 198, size * textWidthMultiplier * 3, 1, 0x0000);
     /*delay(1);
     tft.setCursor(100, 120);
     tft.print("I am a test");*/
