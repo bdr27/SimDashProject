@@ -25,6 +25,8 @@ DrawText::DrawText(int x, int y, int width, int height, String text){
       Serial.println("Not priniting text");
     }
   }
+
+  
   /*Drawable(int x, int y, int width, int height) {
   this->x = x;
   this->y = y;
