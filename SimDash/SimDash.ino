@@ -10,6 +10,7 @@ SWTFT tft;
 double textHeightMultiplier = 8;
 double textWidthMultiplier = 6;
 int resetCounter = 0;
+
 const int drawable = 50;
 DrawText toDraw[drawable];
 
@@ -18,7 +19,7 @@ DrawText rpm;
 void setup() {
   Serial.begin(19200);
   Serial.println("TFT LCD Shield Test");
-  rpm.setup(200, 200, 0, 0, "RPM");
+  rpm.setup(100, 100, 0, 0, 4, "RPM");
   tft.reset();
   uint16_t identifier = tft.readID();
   Serial.print("Your LCD driver chip name is: ");
@@ -29,17 +30,18 @@ void setup() {
   Serial.println("Hello World");
   tft.setRotation(1);
   tft.setTextSize(1);
+  randomSeed(analogRead(0));
 }
 void loop() {
   //for(uint8_t rotation=0; rotation<4; rotation++) {
     //tft.setRotation(rotation);
     testText();
-    if(Serial.available() > 0){
-      DrawWord(Serial.readString());
-    }
-    for(int i = 0; i < drawable; i++){
-      toDraw[i].draw(tft);
-    }
+    //if(Serial.available() > 0){
+    //  DrawWord(Serial.readString());
+    //}
+    //for(int i = 0; i < drawable; i++){
+      //toDraw[i].draw(tft);
+    //}
     //delay(10);
   //}
   
@@ -48,7 +50,7 @@ void loop() {
 void DrawWord(String word){  
     tft.fillRect(0, 0, 250, 60, 0x0000);
     tft.setCursor(0, 0);
-    tft.setTextColor(0xFFFF);  
+    tft.setTextColor(0xFFFF, 0x0000);  
     tft.setTextSize(1);
     tft.print(word);
     
@@ -60,15 +62,19 @@ void staticTest(){
 
 void testText() {
   if(resetCounter < 2){
-    tft.fillScreen(0x2034);
+    tft.fillScreen(0x0000);
     resetCounter++;
-    rpm.setValue("" + resetCounter);
+    //rpm.setValue("" + resetCounter);
     int size = 4;
-    tft.setTextSize(size);
-    rpm.draw(tft);
-    tft.fillRect(198, 200, 1, size * textHeightMultiplier, 0x0000);
-    tft.fillRect(200, 198, size * textWidthMultiplier * 3, 1, 0x0000);
-  } 
+    //tft.setTextSize(size);
+    //rpm.draw(tft);
+    //tft.fillRect(198, 200, 1, size * textHeightMultiplier, 0x0000);
+    //tft.fillRect(200, 198, size * textWidthMultiplier * 3, 1, 0x0000);
+  }
+  String value = String(random(1000, 2000));
+  rpm.setValue("RPM " + value); 
+  rpm.draw(tft);
+  //Serial.println("RPM");
   /*tft.println();
   tft.setTextColor(0xFFE0); tft.setTextSize(2);
   tft.println("A Yellow Text Here");

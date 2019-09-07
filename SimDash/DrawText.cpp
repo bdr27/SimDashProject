@@ -1,21 +1,22 @@
 #include "DrawText.h"
 
 DrawText::DrawText(){
-    this->DEBUG = false;
     this->x = 0;
     this->y = 0;
     this->width = 0;
     this->height = 0;
     this->text = "";
+    this->fontSize = 0;
     oldValue = "";
 }
 
-  void DrawText::setup(int x, int y, int width, int height, String text){
+  void DrawText::setup(int x, int y, int width, int height, int fontSize, String text){
     this->x = x;
     this->y = y;
     this->width = width;
     this->height = height;
     this->text = text;
+    this->fontSize = fontSize;
     oldValue = "";
   }
 
@@ -31,16 +32,24 @@ DrawText::DrawText(){
       if(DEBUG){
         Serial.println("Displaying Text");
       }
+      
+      //tft.setTextColor(0x0000, 0xFFFF);  
+      //tft.print(oldValue);
       oldValue = newValue;
+      tft.setTextColor(0xFFFF, 0x0000);
       tft.setCursor(x, y);
-      tft.print(text);
+      tft.setTextSize(fontSize);
+      //tft.fillRect(x,y, fontSize * textWidthMultiplier * oldValue.length(), fontSize * textHeightMultiplier, 0x0000);   
+      //tft.fillRect(x - 2, y, 1, fontSize * textHeightMultiplier, 0x0000);
+      //tft.fillRect(x, y - 2, fontSize * textWidthMultiplier * 3, 1, 0x0000);
+      tft.print(oldValue);
     }
     else{
       if(DEBUG){
         Serial.println("Not priniting text");
       }
     }
-  }
+  } 
 
   
   /*Drawable(int x, int y, int width, int height) {
