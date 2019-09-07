@@ -2,6 +2,7 @@
 class DrawText
 {
 protected:
+  bool DEBUG;
 	int x;
 	int y;
   int height;
@@ -11,7 +12,8 @@ protected:
   String oldValue; 
   
 public:
-  DrawText(int x, int y, int width, int height, String text);
+  DrawText();
+  void setup(int x, int y, int width, int height, String text);
   void setValue(String value);
   void draw(SWTFT &tft);
 	//Drawable(int x, int y, int width, int height);

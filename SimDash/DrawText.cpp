@@ -1,6 +1,16 @@
 #include "DrawText.h"
 
-DrawText::DrawText(int x, int y, int width, int height, String text){
+DrawText::DrawText(){
+    this->DEBUG = false;
+    this->x = 0;
+    this->y = 0;
+    this->width = 0;
+    this->height = 0;
+    this->text = "";
+    oldValue = "";
+}
+
+  void DrawText::setup(int x, int y, int width, int height, String text){
     this->x = x;
     this->y = y;
     this->width = width;
@@ -14,15 +24,21 @@ DrawText::DrawText(int x, int y, int width, int height, String text){
   }
 
   void DrawText::draw(SWTFT &tft){
-    Serial.println("oldText: " + oldValue + " newText: " + newValue);
+    if(DEBUG){
+      Serial.println("oldText: " + oldValue + " newText: " + newValue);
+    }
     if(newValue.compareTo(oldValue) != 0){
-      Serial.println("Displaying Text");
+      if(DEBUG){
+        Serial.println("Displaying Text");
+      }
       oldValue = newValue;
       tft.setCursor(x, y);
       tft.print(text);
     }
     else{
-      Serial.println("Not priniting text");
+      if(DEBUG){
+        Serial.println("Not priniting text");
+      }
     }
   }
 
