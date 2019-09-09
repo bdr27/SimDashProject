@@ -1,0 +1,1 @@
+To Get Project to build will need iRacingSdkWrapper, iRacingSimulator and iRSDKSharp from https://github.com/NickThissen/iRacingSdkWrapper
