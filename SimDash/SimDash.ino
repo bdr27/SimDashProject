@@ -13,11 +13,11 @@ int resetCounter = 0;
 
 const int drawable = 50;
 DrawText toDraw[drawable];
-
+String inData = "";
 DrawText rpm;
 
 void setup() {
-  Serial.begin(19200);
+  Serial.begin(9600);
   Serial.println("TFT LCD Shield Test");
   rpm.setup(100, 100, 0, 0, 4, "RPM");
   tft.reset();
@@ -36,8 +36,19 @@ void loop() {
   //for(uint8_t rotation=0; rotation<4; rotation++) {
     //tft.setRotation(rotation);
     testText();
-    //if(Serial.available() > 0){
-    //  DrawWord(Serial.readString());
+    inData = "";
+    while(Serial.available() > 0){
+      char recieved = Serial.read();
+      inData += recieved;
+
+      //Process message when new line character is revieved
+      if(recieved == '\n')
+      {
+        Serial.print(inData);
+        inData = "";
+      }
+    }
+      //DrawWord(Serial.readString());
     //}
     //for(int i = 0; i < drawable; i++){
       //toDraw[i].draw(tft);
