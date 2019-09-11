@@ -23,22 +23,28 @@ namespace SimServerCLI
             SerialPort sp = new SerialPort();
             sp.PortName = "COM3";
             sp.BaudRate = 9600;
-            sp.Open();
             var toContinue = true;
-            do
+            sp.Open();
+            try
             {
-                Console.WriteLine("Enter Message");
-                var message = Console.ReadLine();
-                if (message.ToLower() == "q")
+                do
                 {
-                    toContinue = false;
-                }
-                else
-                {
-                    sp.WriteLine(message);
-                }
-            } while (toContinue);
-            sp.Close();
+                    Console.WriteLine("Enter Message");
+                    var message = Console.ReadLine();
+                    if (message.ToLower() == "q")
+                    {
+                        toContinue = false;
+                    }
+                    else
+                    {
+                        sp.WriteLine(message + "\n");
+                    }
+                } while (toContinue);
+            }
+            finally
+            {
+                sp.Close();
+            }
         }
 
         private void SimTest()
