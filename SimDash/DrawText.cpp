@@ -39,6 +39,7 @@ DrawText::DrawText(){
       tft.setTextColor(0xFFFF, 0x0000);
       tft.setCursor(x, y);
       tft.setTextSize(fontSize);
+      tft.setFont();
       //tft.fillRect(x,y, fontSize * textWidthMultiplier * oldValue.length(), fontSize * textHeightMultiplier, 0x0000);   
       //tft.fillRect(x - 2, y, 1, fontSize * textHeightMultiplier, 0x0000);
       //tft.fillRect(x, y - 2, fontSize * textWidthMultiplier * 3, 1, 0x0000);
