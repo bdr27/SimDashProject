@@ -17,12 +17,12 @@ enum mode intputMode;
 double textHeightMultiplier = 8;
 double textWidthMultiplier = 6;
 int resetCounter = 0;
+int dataCounter;
 
 //const int drawable = 50;
 //DrawText toDraw[drawable];
-String inData = "";
+String inData;
 DrawText rpm;
-String priorWord = "";
 
 void setup() {
   intputMode = NONE;
@@ -38,6 +38,7 @@ void setup() {
   tft.setRotation(1);
   tft.setTextSize(1);
   inData = "";
+  dataCounter = 0;
 }
 void loop() {
     screenClean();
@@ -45,17 +46,18 @@ void loop() {
 }
 
 void updateScreen(){
-  while(Serial.available() > 0){      
+  while(Serial.available() > 0){
       char recieved = Serial.read();
-      if(intputMode == NONE){
-        setInputMode(recieved);  
-      }
-      else{
-        inData += recieved;        
+      // if(intputMode == NONE){
+      //   setInputMode(recieved);  
+      // }
+      // else{
+      //   inData += recieved;
         //Process message when new line character is revieved
-        if(recieved == '\n')
-        {
+        if(recieved == '\n' || recieved == ','){
           switch(intputMode){
+            case NONE:
+              setInputMode(inData);              
             case DATA:
               updateData(inData);
               break;
@@ -68,8 +70,12 @@ void updateScreen(){
           //rpm.draw(tft);
           //Serial.println(inData);        
           inData = "";
+          dataCounter++;
         }
-      }      
+        else{
+          inData += recieved
+        }
+      //}      
     }
 }
 
@@ -78,10 +84,12 @@ void setInputMode(char recieved){
     case 'i':
     case 'I':
       intputMode = INIT;
+      dataCounter = 0;
       break;
     case 'd':
     case 'D':
       intputMode = DATA;
+      dataCounter = 0;
       break;       
     }
 }
