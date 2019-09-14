@@ -11,7 +11,6 @@ protected:
   int width;
   int fontSize;  
   String text;
-  String newValue;
   String oldValue; 
   
 public:

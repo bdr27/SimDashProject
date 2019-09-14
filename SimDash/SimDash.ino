@@ -19,16 +19,16 @@ double textWidthMultiplier = 6;
 int resetCounter = 0;
 int dataCounter;
 
-//const int drawable = 50;
-//DrawText toDraw[drawable];
+const int drawable = 10;
+DrawText toDraw[drawable];
 String inData;
-DrawText rpm;
+DrawText message;
 
 void setup() {
   intputMode = NONE;
   Serial.begin(250000);
   Serial.println("TFT LCD Shield Test");
-  rpm.setup(0, 100, 0, 0, 2, "RPM");
+  message.setup(0, 100, 0, 0, 2, "Initialise");
   tft.reset();
   uint16_t identifier = tft.readID();
   Serial.print("Your LCD driver chip name is: ");
@@ -39,44 +39,41 @@ void setup() {
   tft.setTextSize(1);
   inData = "";
   dataCounter = 0;
+  screenClean();
+  drawToMessage("Hello");
 }
 void loop() {
-    screenClean();
-    updateScreen();
+  updateScreen();
 }
 
+//Waits to recieve input via Serial at the moment 
+//Potentially want to extract this to quickly allow
+//Other methods of commincation like bluetooth
 void updateScreen(){
   while(Serial.available() > 0){
-      char recieved = Serial.read();
-      // if(intputMode == NONE){
-      //   setInputMode(recieved);  
-      // }
-      // else{
-      //   inData += recieved;
-        //Process message when new line character is revieved
-        if(recieved == '\n' || recieved == ','){
-          switch(intputMode){
-            case NONE:
-              setInputMode(inData);              
-            case DATA:
-              updateData(inData);
-              break;
-            case INIT:
-              initScreen(inData);
-              break;
-          }
-          intputMode = NONE;
-          //rpm.setValue(inData); 
-          //rpm.draw(tft);
-          //Serial.println(inData);        
-          inData = "";
-          dataCounter++;
-        }
-        else{
-          inData += recieved
-        }
-      //}      
+    char recieved = Serial.read();
+    //Process message when new line character is revieved
+    if(recieved == '\n' || recieved == ','){
+      switch(intputMode){
+        case NONE:
+          setInputMode(recieved); 
+        case INIT:
+          initScreen(inData);
+          break;             
+        case DATA:
+          updateData(inData);
+          break;
+      }
+      if(recieved == '\n'){
+        intputMode = NONE;
+        dataCounter++;
+      }    
+      inData = "";
     }
+    else{
+      inData += recieved;
+    }
+  }
 }
 
 void setInputMode(char recieved){
@@ -95,18 +92,17 @@ void setInputMode(char recieved){
 }
 
 void initScreen(String settings){
-  rpm.setValue("Initialising");
-  rpm.draw(tft);
+  //toDraw[dataCounter++].setup(settings);
+  drawToMessage("Initialise");
 }
 
 void updateData(String message){
-  rpm.setValue("Data");
-  rpm.draw(tft);
+  drawToMessage("Update");
 }
 
-void drawToRPM(String word){
-  rpm.setValue(word);
-  rpm.draw(tft);
+void drawToMessage(String word){
+  message.setValue(word);
+  message.draw(tft);
 }
 
 void drawWord(String word){  
