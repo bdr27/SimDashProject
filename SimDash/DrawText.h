@@ -1,6 +1,9 @@
 #include "SWTFT.h" 
+
 class DrawText
-{  
+{
+private:
+  bool setValueSetMode(char input);
 protected:
   const bool DEBUG = false;
   const float textHeightMultiplier = 8;
@@ -11,10 +14,21 @@ protected:
   int width;
   int fontSize;  
   String text;
-  String oldValue; 
+  String oldValue;   
+  enum ValueSetMode{
+    NONE,
+    X,
+    Y,
+    Width,
+    Height,
+    FONTSIZE,
+    Text
+  };
+  enum ValueSetMode valueSetMode;
   
 public:
   DrawText();
+  void setup(String settings);
   void setup(int x, int y, int width, int height, int fontSize, String text);
   void setValue(String value);
   void draw(SWTFT &tft);
