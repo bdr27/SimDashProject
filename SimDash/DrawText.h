@@ -1,37 +1,35 @@
-#include "SWTFT.h" 
+#include "SWTFT.h"
 
 class DrawText
 {
-private:
-  bool setValueSetMode(char input);
 protected:
+  bool setValueSetMode(String input);
   const bool DEBUG = false;
   const float textHeightMultiplier = 8;
   const float textWidthMultiplier = 6;
-	int x;
-	int y;
+  int x;
+  int y;
   int height;
   int width;
-  int fontSize;  
+  int fontSize;
   String text;
-  String oldValue;   
-  enum ValueSetMode{
+  String oldValue;
+  enum ValueSetMode
+  {
     NONE,
     X,
     Y,
-    Width,
-    Height,
+    WIDTH,
+    HEIGHT,
     FONTSIZE,
-    Text
+    TEXT
   };
   enum ValueSetMode valueSetMode;
-  
+
 public:
   DrawText();
   void setup(String settings);
   void setup(int x, int y, int width, int height, int fontSize, String text);
   void setValue(String value);
   void draw(SWTFT &tft);
-	//Drawable(int x, int y, int width, int height);
-	//virtual void Draw(&SWTFT tft, string value);
 };
