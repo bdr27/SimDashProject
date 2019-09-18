@@ -4,14 +4,13 @@ class DrawText
 {
 protected:
   bool setValueSetMode(String input);
-  const bool DEBUG = false;
   const float textHeightMultiplier = 8;
   const float textWidthMultiplier = 6;
-  int x;
-  int y;
-  int height;
-  int width;
-  int fontSize;
+  long x;
+  long y;
+  long height;
+  long width;
+  long fontSize;
   String text;
   String oldValue;
   enum ValueSetMode
@@ -27,6 +26,7 @@ protected:
   enum ValueSetMode valueSetMode;
 
 public:
+  const bool DEBUG = true;
   DrawText();
   void setup(String settings);
   void setup(int x, int y, int width, int height, int fontSize, String text);

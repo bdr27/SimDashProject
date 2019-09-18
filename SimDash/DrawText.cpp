@@ -13,20 +13,44 @@ DrawText::DrawText()
 
 void DrawText::setup(String settings)
 {
-  Serial.println(settings);
+  if(DEBUG){
+    Serial.println(settings);
+  }
   bool setValue = false;
   String memberSetting = "";
   String memberValue = "";
   for (char &c : settings)
   {
+    if(DEBUG)
+    {
+      Serial.println(c);
+    }
     if (setValue)
     {
+      
       if (c == ',' || c == '\n')
       {
-        Serial.println(memberValue);
+        if(DEBUG)
+        {
+          Serial.print("Store value (");
+          Serial.print(memberValue);
+          Serial.println(")");
+        }
         switch(valueSetMode){
           case X:
-            x = memberValue.toInt();
+            if(DEBUG)
+            {
+              Serial.print("Trying to turn (");
+              Serial.print(memberValue.toInt());
+              Serial.println(") to int");
+            }
+            x = memberValue.toInt();    
+            if(DEBUG)
+            {
+              Serial.print("x (");
+              Serial.print(x);
+              Serial.println(")");
+            }
             break;
           case Y:
             y = memberValue.toInt();
@@ -45,6 +69,7 @@ void DrawText::setup(String settings)
             break;
         }
         memberValue = "";
+        setValue = false;
       }
       else
       {
@@ -69,24 +94,29 @@ void DrawText::setup(String settings)
     }
   }
 
-  Serial.print("X: ");
-  Serial.print(x);
-  Serial.print(" Y: ");
-  Serial.print(y);
-  Serial.print(" Width: ");
-  Serial.print(width);
-  Serial.print(" Height: ");
-  Serial.print(height);
-  Serial.print(" FontSize: ");
-  Serial.print(fontSize);
-  Serial.print(" Text: ");
-  Serial.println(text);
+  if(DEBUG)
+  {  
+    Serial.print("X: ");
+    Serial.print(x);
+    Serial.print(" Y: ");
+    Serial.print(y);
+    Serial.print(" Width: ");
+    Serial.print(width);
+    Serial.print(" Height: ");
+    Serial.print(height);
+    Serial.print(" FontSize: ");
+    Serial.print(fontSize);
+    Serial.print(" Text: ");
+    Serial.println(text);
+  }
 }
 
 bool DrawText::setValueSetMode(String input)
 {
-  Serial.print("Value mode ");
-  Serial.print(input);
+  if(DEBUG){
+    Serial.print("Value mode ");
+    Serial.println(input);
+  }
   bool setValue = false;
   input.toLowerCase();
   if (input == "x")

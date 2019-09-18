@@ -14,7 +14,7 @@ enum mode
   DATA
 };
 
-enum mode intputMode;
+enum mode inputMode;
 double textHeightMultiplier = 8;
 double textWidthMultiplier = 6;
 int resetCounter = 0;
@@ -27,7 +27,7 @@ DrawText message;
 
 void setup()
 {
-  intputMode = NONE;
+  inputMode = NONE;
   Serial.begin(250000);
   Serial.println("TFT LCD Shield Test");
   message.setup(0, 100, 0, 0, 2, "Initialise");
@@ -57,25 +57,32 @@ void updateScreen()
   while (Serial.available() > 0)
   {
     char recieved = Serial.read();
-    //Process message when new line character is revieved
-    if (recieved == '\n')
+    if(message.DEBUG)
     {
-      switch (intputMode)
+      Serial.print(recieved);
+    }
+    //Process message when new line character is revieved
+    //if (recieved == '\n' || recieved == ',')
+    if(recieved == ',' && inputMode == NONE)
+    {
+      if(message.DEBUG)
       {
-      case NONE:
-        setInputMode(recieved);
-      case INIT:
-        initScreen(inData);
-        break;
-      case DATA:
-        updateData(inData);
-        break;
+        Serial.println("I Get here");
       }
-      if (recieved == '\n')
-      {
-        intputMode = NONE;
-        dataCounter = 0;
+      setInputMode(inData);
+      dataCounter = 0;
+      inData = "";
+    }
+    else if(recieved == '\n'){
+      switch(inputMode){
+        case INIT:
+          initScreen(inData);
+          break;
+        case DATA:
+          updateData(inData);
+          break;          
       }
+      inputMode = NONE;
       inData = "";
     }
     else
@@ -85,26 +92,44 @@ void updateScreen()
   }
 }
 
-void setInputMode(char recieved)
+void setInputMode(String recieved)
 {
-  switch (recieved)
+  if(message.DEBUG)
   {
-  case 'i':
-  case 'I':
-    intputMode = INIT;
+    Serial.print("Set input mode (");
+    Serial.print(recieved);
+    Serial.println(")");
+  }
+  recieved.toLowerCase();
+  if(recieved == "i")
+  {
+    if(message.DEBUG)
+    {
+      Serial.print("Init Mode");
+    }
+    inputMode = INIT;
     dataCounter = 0;
-    break;
-  case 'd':
-  case 'D':
-    intputMode = DATA;
+  }
+  else if(recieved == "d")
+  {  
+    if(message.DEBUG)
+    {
+      Serial.print("Data Mode");
+    }
+    inputMode = DATA;
     dataCounter = 0;
-    break;
   }
 }
 
 void initScreen(String settings)
 {
   drawToMessage("Initialise");
+  if(message.DEBUG)
+  {
+    Serial.print("Init Screen with (");
+    Serial.print(settings);
+    Serial.println(")");
+  }
   DrawText initText = toDraw[dataCounter++];
   initText.setup(settings);
   initText.draw(tft);
