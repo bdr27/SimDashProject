@@ -28,7 +28,7 @@ DrawText message;
 void setup()
 {
   inputMode = NONE;
-  Serial.begin(250000);
+  Serial.begin(9600);
   Serial.println("TFT LCD Shield Test");
   message.setup(0, 100, 0, 0, 2, "Initialise");
   tft.reset();
@@ -42,7 +42,6 @@ void setup()
   inData = "";
   dataCounter = 0;
   screenClean();
-  drawToMessage("Hello World");
 }
 void loop()
 {
@@ -59,7 +58,7 @@ void updateScreen()
     char recieved = Serial.read();
     if(message.DEBUG)
     {
-      Serial.print(recieved);
+      Serial.println(recieved);
     }
     //Process message when new line character is revieved
     //if (recieved == '\n' || recieved == ',')

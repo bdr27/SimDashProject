@@ -22,7 +22,7 @@ namespace SimServerCLI
         {
             SerialPort sp = new SerialPort();
             sp.PortName = "COM3";
-            sp.BaudRate = 250000;
+            sp.BaudRate = 9600;
             var toContinue = true;
             sp.Open();
             try
